@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -12,17 +12,17 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Driver')}>
         <Icon name="person-outline" size={40} color="black" />
         <Text style={styles.cardText}>Driver</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Vehicles')}>
         <Icon name="car-outline" size={40} color="black" />
         <Text style={styles.cardText}>Vehicles</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Trips')}>
         <Icon name="map-outline" size={40} color="black" />
         <Text style={styles.cardText}>Trips</Text>
       </TouchableOpacity>
