@@ -7,9 +7,25 @@ const RegisterScreen = ({ navigation }) => {
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         console.log('Register:', username, email, cpf, password);
-        navigation.navigate('Login'); // Redireciona para a tela de login após o cadastro
+
+        const requestJson = JSON.stringify({ username: username, email: email, cpf: cpf, password: password });
+
+        response = await fetch('http://localhost:8080/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: requestJson,
+        })
+
+        if (!response.ok) {
+            console.log('Error:', response.status);
+            return;
+        }
+
+        navigation.navigate('Login');
     };
 
     return (

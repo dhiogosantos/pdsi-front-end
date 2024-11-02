@@ -5,9 +5,24 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
 
     console.log('Login:', email, password);
+
+    const requestJson = JSON.stringify({ email: email, password: password });
+
+    response = await fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: requestJson,
+    })
+
+    if (!response.ok) {
+      console.log('Error:', response.status);
+      return;
+    }
 
     navigation.navigate('Home');
   };
