@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    
+
     console.log('Login:', username, password);
-    
+
     navigation.navigate('Home');
   };
 
@@ -33,6 +33,9 @@ const LoginScreen = ({ navigation }) => {
         onChangeText={setPassword}
       />
       <Button title="Log In" onPress={handleLogin} color="#75b6d6" />
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <Text style={styles.registerText}>Don't have an account? Register here</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,6 +67,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     backgroundColor: '#fff',
+  },
+  registerText: {
+    color: '#71B5E3',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
 
