@@ -12,20 +12,26 @@ const RegisterScreen = ({ navigation }) => {
 
         const requestJson = JSON.stringify({ username: username, email: email, cpf: cpf, password: password });
 
-        response = await fetch('http://localhost:8080/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: requestJson,
-        })
-
-        if (!response.ok) {
-            console.log('Error:', response.status);
-            return;
+        try {
+            const response = await fetch('http://localhost:8080/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: requestJson,
+            });
+    
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.log('Error:', response.status, errorText);
+                return;
+            }
+    
+            console.log('Success:', await response.text());
+            navigation.navigate('Login');
+        } catch (error) {
+            console.error('Error:', error);
         }
-
-        navigation.navigate('Login');
     };
 
     return (
