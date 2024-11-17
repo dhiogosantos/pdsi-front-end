@@ -8,6 +8,7 @@ import Driver from './driver';
 import Ticket from './ticket';
 import Vehicles from './vehicles';
 import Trips from './trips';
+import AddVehicle from './AddVehicle';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const App = () => {
         <Stack.Screen name="Ticket" component={Ticket} />
         <Stack.Screen name="Vehicles" component={Vehicles} />
         <Stack.Screen name="Trips" component={Trips} />
+        <Stack.Screen name="AddVehicle" component={AddVehicle} />
       </Stack.Navigator>
     </NavigationContainer>
   );

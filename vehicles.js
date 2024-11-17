@@ -56,7 +56,7 @@ const Vehicles = () => {
         ))}
         
         {/* Botão para adicionar veículo (vai direcionar para uma tela nova, que esta será um formulário para cadastro de um novo veículo) */}
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddVehicle')}>
           <Text style={styles.addButtonText}>+ Add Vehicle</Text>
         </TouchableOpacity>
       </ScrollView>
