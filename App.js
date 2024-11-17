@@ -5,6 +5,7 @@ import LoginScreen from './main';
 import RegisterScreen from './registerScreen';
 import HomeScreen from './homeScreen';
 import Driver from './driver';
+import Ticket from './ticket';
 import Vehicles from './vehicles';
 import Trips from './trips';
 
@@ -18,6 +19,7 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Driver" component={Driver} />
+        <Stack.Screen name="Ticket" component={Ticket} />
         <Stack.Screen name="Vehicles" component={Vehicles} />
         <Stack.Screen name="Trips" component={Trips} />
       </Stack.Navigator>

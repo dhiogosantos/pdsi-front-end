@@ -69,7 +69,7 @@ const DriverInfo = () => {
         {/* Botão para navegar para a tela de tickets */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Tickets')}
+          onPress={() => navigation.navigate('Ticket')}
         >
           <Icon name="file-document" size={30} color="#001421" />
           <Text style={styles.buttonText}>Ticket's</Text>
