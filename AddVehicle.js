@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
+
 const AddVehicle = ({ navigation }) => {
   // Definindo estados para cada campo
   const [plate, setPlate] = useState('');
@@ -17,6 +18,7 @@ const AddVehicle = ({ navigation }) => {
     console.log({ plate, chassis, year, color, maker, model, km });
 
     const requestJson = JSON.stringify({
+        //userId: userId, //Pegar o id do usuário logado
         plate: plate,
         chassis: chassis,
         year: year,

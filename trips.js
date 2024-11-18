@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,7 +6,7 @@ const Trips = () => {
   const navigation = useNavigation(); //hook de navegação para navegar entre telas (drivers license e tickets)
 
   // Dados estáticos de viagens
-  const tripsData = [
+  const [tripsData, setTripsData] = useState([
     {
       id: 1,
       name: 'Brasilia',
@@ -31,7 +31,11 @@ const Trips = () => {
       travelTime: '4:30hr',
       travelDistance: '376km',
     },
-  ];
+  ]);
+
+  const removeTrip = (id) => {
+    setTripsData(tripsData.filter(trip => trip.id !== id));
+  };
 
   return (
     <View style={styles.container}>
@@ -51,17 +55,14 @@ const Trips = () => {
               <Text style={styles.label}>Travel Distance</Text>
               <Text style={styles.value}>{trip.travelDistance}</Text>
             </View>
-            <TouchableOpacity
-              style={styles.detailsButton}
-              onPress={() => navigation.navigate('TripDetails', { tripId: trip.id })}
-            >
-              <Text style={styles.detailsButtonText}>Details</Text> {/* Botao para ver os detalhes da viagem */}
+            <TouchableOpacity onPress={() => removeTrip(trip.id)} style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
           </View>
         ))}
 
         {/* Botao para adicionar uma nova viagem */}
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddTrip')}>
           <Text style={styles.addButtonText}>+ Add Trip</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -101,26 +102,26 @@ const styles = StyleSheet.create({
     color: '#001421',
     fontSize: 16,
   },
-  detailsButton: {
+  deleteButton: {
     backgroundColor: '#001421',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
     alignItems: 'center',
   },
-  detailsButtonText: {
-    color: '#71B5E3',
+  deleteButtonText: {
+    color: 'red',
     fontWeight: 'bold',
   },
   addButton: {
-    backgroundColor: '#001421',
+    backgroundColor: '#71B5E3',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 10,
   },
   addButtonText: {
-    color: '#71B5E3',
+    color: '#001421',
     fontSize: 16,
     fontWeight: 'bold',
   },

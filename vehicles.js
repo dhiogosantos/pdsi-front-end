@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
 const Vehicles = () => {
   const navigation = useNavigation();
-
-  // Dados estáticos de veículos (mesma coisa que no de motorista, só por enquanto, ai depois cada user terá vehiculos vinculados a ele)
-  // Inicialmente estará vazio, depois será preenchido com os dados do veículo passado pelo usuário
-  const vehiclesData = [
+  const [vehiclesData, setVehiclesData] = useState([
     {
       id: 1,
       automaker: 'Renault',
@@ -23,39 +20,41 @@ const Vehicles = () => {
       year: 2020,
       color: 'Preto',
     },
-  ];
+  ]);
 
-  //Renderizando interface do usuário
+  const removeVehicle = (id) => {
+    setVehiclesData(vehiclesData.filter(vehicle => vehicle.id !== id));
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
-        {vehiclesData.map((vehicle) => ( //Mapeamento dos dados dos veículos (id, automaker, model, year, color)
-
-          //Container de cada veículo que será exibido na tela
+        {vehiclesData.map((vehicle) => (
           <View key={vehicle.id} style={styles.vehicleContainer}>
             <Text style={styles.vehicleTitle}>Vehicle {vehicle.id}</Text>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Automaker</Text>
               <Text style={styles.value}>{vehicle.automaker}</Text>
-              <Text style={styles.label}>Year</Text>
-              <Text style={styles.value}>{vehicle.year}</Text>
+              <Text style={styles.labelRight}>Year</Text>
+              <Text style={styles.valueRight}>{vehicle.year}</Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Model</Text>
               <Text style={styles.value}>{vehicle.model}</Text>
-              <Text style={styles.label}>Color</Text>
-              <Text style={styles.value}>{vehicle.color}</Text>
+              <Text style={styles.labelRight}>Color</Text>
+              <Text style={styles.valueRight}>{vehicle.color}</Text>
             </View>
             <TouchableOpacity
               style={styles.maintenanceButton}
               onPress={() => navigation.navigate('Maintenance', { vehicleId: vehicle.id })}
             >
-              <Text style={styles.maintenanceButtonText}>Maintenances</Text> {/* Botão para ver as manutenções do veíuclo */}
+              <Text style={styles.maintenanceButtonText}>Maintenances</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => removeVehicle(vehicle.id)} style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
           </View>
         ))}
-        
-        {/* Botão para adicionar veículo (vai direcionar para uma tela nova, que esta será um formulário para cadastro de um novo veículo) */}
         <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddVehicle')}>
           <Text style={styles.addButtonText}>+ Add Vehicle</Text>
         </TouchableOpacity>
@@ -67,34 +66,47 @@ const Vehicles = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
     backgroundColor: '#001421',
-    padding: 20,
   },
   vehicleContainer: {
+    marginBottom: 16,
+    padding: 16,
     backgroundColor: '#71B5E3',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 20,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   vehicleTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#001421',
-    marginBottom: 10,
     textAlign: 'center',
+    marginBottom: 8,
   },
   infoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   label: {
     fontWeight: 'bold',
-    color: '#001421',
+    flex: 1,
   },
   value: {
-    color: '#001421',
-    fontSize: 16,
+    color: '#555',
+    flex: 1,
+  },
+  labelRight: {
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'right',
+  },
+  valueRight: {
+    color: '#555',
+    flex: 1,
+    textAlign: 'right',
   },
   maintenanceButton: {
     backgroundColor: '#001421',
@@ -118,6 +130,17 @@ const styles = StyleSheet.create({
     color: '#001421',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  deleteButton: {
+    backgroundColor: '#001421',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: 'red',
+    textAlign: 'center',
   },
 });
 
