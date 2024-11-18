@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useUser } from './UserContext';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUserId } = useUser();
+
 
   const handleLogin = async() => {
 
@@ -24,6 +27,9 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
 
+    const responseJson = await response.json();
+    setUserId(responseJson.data);
+    
     navigation.navigate('Home');
   };
 

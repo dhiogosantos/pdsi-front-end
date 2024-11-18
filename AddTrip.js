@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useUser } from './UserContext'; // Supondo que o ID do usuário está no contexto
 
 const AddTrip = ({ navigation }) => {
-  const user = useUser(); // Acessa o ID do usuário, se necessário
+  const {userId} = useUser(); // Acessa o ID do usuário, se necessário
 
   const [destino, setDestino] = useState('');
   const [distancia, setDistancia] = useState('');
@@ -12,7 +12,7 @@ const AddTrip = ({ navigation }) => {
 
   const handleAddTrip = () => {
     const tripData = {
-      //userId: user.id, // ID do usuário (opcional, caso necessário para identificar o usuário)
+      userId, 
       destino,
       distancia: parseFloat(distancia), // Converte para número
       data,

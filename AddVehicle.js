@@ -1,9 +1,11 @@
 // AddVehicle.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-
+import { useUser } from './UserContext'; // Supondo que o ID do usuário está no contexto
 
 const AddVehicle = ({ navigation }) => {
+  const {userId} = useUser(); // Acessa o ID do usuário, se necessário
+
   // Definindo estados para cada campo
   const [plate, setPlate] = useState('');
   const [chassis, setChassis] = useState('');
@@ -13,12 +15,12 @@ const AddVehicle = ({ navigation }) => {
   const [model, setModel] = useState('');
   const [km, setKm] = useState('');
 
-  const handleAddVehicle = () => {
+  const handleAddVehicle = async () => {
     // (adicionar o cód para enviar para o banco de dados)
     console.log({ plate, chassis, year, color, maker, model, km });
 
     const requestJson = JSON.stringify({
-        //userId: userId, //Pegar o id do usuário logado
+        driverId: userId,
         plate: plate,
         chassis: chassis,
         year: year,
@@ -29,7 +31,7 @@ const AddVehicle = ({ navigation }) => {
     });
 
     try {
-        fetch('http://localhost:8080/vehicle', {
+        const response = await fetch('http://192.168.100.8:8080/vehicle/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +39,7 @@ const AddVehicle = ({ navigation }) => {
             body: requestJson,
         });
 
-        console.log('Success');
+        console.log(await response.text());
         navigation.goBack(); //Volta para a tela de veiculos
     }
     catch (error) {

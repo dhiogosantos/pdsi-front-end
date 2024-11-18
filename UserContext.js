@@ -1,18 +1,15 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-// Cria o contexto do usuário
 const UserContext = createContext();
 
-// Acessar o contexto de usuário
-export const useUser = () => useContext(UserContext);
-
-// Componente que proverá o contexto de usuário
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Estado inicial do usuário é null
+  const [userId, setUserId] = useState(null);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{userId, setUserId}}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export const useUser = () => useContext(UserContext);
