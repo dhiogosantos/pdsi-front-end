@@ -1,7 +1,7 @@
 // AddVehicle.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useUser } from './UserContext'; // Supondo que o ID do usuário está no contexto
+import { useUser } from './UserContext';
 
 const AddVehicle = ({ navigation }) => {
   const {userId} = useUser(); // Acessa o ID do usuário, se necessário
@@ -31,7 +31,7 @@ const AddVehicle = ({ navigation }) => {
     });
 
     try {
-        const response = await fetch('http://192.168.100.8:8080/vehicle/register', {
+        const response = await fetch('http://localhost:8080/vehicle/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

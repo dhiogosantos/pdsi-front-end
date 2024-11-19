@@ -1,21 +1,34 @@
 //Importando bibliotecas
-import React from 'react'; //bibliotecas do React
+import React, { useState, useEffect }from 'react'; //bibliotecas do React
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'; //Componentes do react-native
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; //Ícones
 import { useNavigation } from '@react-navigation/native'; //hook de navegação do React (permite navegar entre telas)
+import { useUser } from './UserContext';
+
 
 const DriverInfo = () => {
-  const navigation = useNavigation(); //hook de navegação para navegar entre telas (drivers license e tickets)
+  const navigation = useNavigation();
+  const { userId } = useUser();
+  const [driverData, setDriverData] = useState(null);
 
-  //Dados do motorista (estáticos, mas o objetivo depois é se atualizarem com base nos dados de login)
-  const driverData = {
-    name: 'Fulano da Silva',
-    gender: 'Masculino',
-    cpf: '000.000.000-00',
-    emissionDate: '14/10/2023',
-    expiredDate: '14/10/2033',
-    category: 'B',
-  };
+  useEffect(() => {
+    const fetchDriverData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/driver/getById/' + userId);
+        const data = await response.json();
+        setDriverData(data.data);
+        console.log(data.data);
+      } catch (error) {
+        console.error('Error fetching driver data:', error);
+      }
+    };
+
+    fetchDriverData();
+  }, [userId]);
+
+  if (!driverData) {
+    return <Text>Loading...</Text>;
+  }
 
   //Renderização da Interface
   return (
@@ -31,7 +44,7 @@ const DriverInfo = () => {
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Name</Text>
-          <Text style={styles.value}>{driverData.name}</Text>
+          <Text style={styles.value}>{driverData.username}</Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Gender</Text>
