@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from './UserContext';
 
 const Vehicles = () => {
   const navigation = useNavigation();
-  const [vehiclesData, setVehiclesData] = useState([
-    {
-      id: 1,
-      automaker: 'Renault',
-      model: 'Sandero',
-      year: 2020,
-      color: 'Cinza',
-    },
-    {
-      id: 2,
-      automaker: 'Honda',
-      model: 'Civic',
-      year: 2020,
-      color: 'Preto',
-    },
-  ]);
+  const { userId } = useUser();
+  const [vehiclesData, setVehiclesData] = useState([]);
 
-  const removeVehicle = (id) => {
-    setVehiclesData(vehiclesData.filter(vehicle => vehicle.id !== id));
+  useEffect(() => {
+    const fetchVehiclesData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/vehicle/getAll/' + userId);
+        const result = await response.json();
+        if (result.success) {
+          setVehiclesData(result.data);
+        } else {
+          console.error('Error fetching vehicles data:', result.message);
+        }
+      } catch (error) {
+        console.error('Error fetching vehicles data:', error);
+      }
+    };
+
+    fetchVehiclesData();
+  }, []);
+
+  const removeVehicle = (plate) => {
+    setVehiclesData(vehiclesData.filter(vehicle => vehicle.plate !== plate));
   };
 
   return (
     <View style={styles.container}>
       <ScrollView>
         {vehiclesData.map((vehicle) => (
-          <View key={vehicle.id} style={styles.vehicleContainer}>
-            <Text style={styles.vehicleTitle}>Vehicle {vehicle.id}</Text>
+          <View key={vehicle.plate} style={styles.vehicleContainer}>
+            <Text style={styles.vehicleTitle}>Vehicle {vehicle.plate}</Text>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Automaker</Text>
-              <Text style={styles.value}>{vehicle.automaker}</Text>
+              <Text style={styles.value}>{vehicle.maker}</Text>
               <Text style={styles.labelRight}>Year</Text>
               <Text style={styles.valueRight}>{vehicle.year}</Text>
             </View>
